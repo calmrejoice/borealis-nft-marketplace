@@ -4,13 +4,13 @@ import { Text, Flex, Button } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 import axios from 'axios';
 
-import {
-  nftCollectionFactoryAddress,
-  nftMarketAddress,
-} from '../config/contractAddresses';
+// import {
+//   nftCollectionFactoryAddress,
+//   nftMarketAddress,
+// } from '../config/contractAddresses';
 
-import NFT from '../artifacts/contracts/BorealisRoyalty.sol/BorealisRoyalty.json';
-import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json';
+// import NFT from '../artifacts/contracts/BorealisRoyalty.sol/BorealisRoyalty.json';
+// import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json';
 import { HeroBody } from '@components/Hero/HeroBody';
 
 export default function Home() {
