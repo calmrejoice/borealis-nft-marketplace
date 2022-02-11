@@ -1,8 +1,7 @@
-require("@nomiclabs/hardhat-waffle");
+require('@nomiclabs/hardhat-waffle');
+require('dotenv').config();
 
-// This is a sample Hardhat task. To learn how to create your own go to
-// https://hardhat.org/guides/create-task.html
-task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
+task('accounts', 'Prints the list of accounts', async (taskArgs, hre) => {
   const accounts = await hre.ethers.getSigners();
 
   for (const account of accounts) {
@@ -10,12 +9,27 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
   }
 });
 
-// You need to export an object to set up your config
-// Go to https://hardhat.org/config/ to learn more
+const privateKey1 = process.env.PRIVATE_KEY_1;
+if (!privateKey1) {
+  throw new Error('Please set your PRIVATE_KEY_1 in a .env file');
+}
 
-/**
- * @type import('hardhat/config').HardhatUserConfig
- */
 module.exports = {
-  solidity: "0.8.4",
+  networks: {
+    hardhat: {
+      chainId: 1337,
+    },
+    auroraTestnet: {
+      url: 'https://testnet.aurora.dev',
+      accounts: [privateKey1],
+      chainId: 1313161555,
+    },
+    aurora: {
+      url: 'https://mainnet.aurora.dev/',
+      accounts: [privateKey1],
+      chainId: 1313161554,
+    },
+  },
+
+  solidity: '0.8.4',
 };
