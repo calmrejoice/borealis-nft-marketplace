@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
-import { Flex, Text, Button, useColorMode } from '@chakra-ui/react';
+import { Flex, Text, Button, Spacer } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
 import Web3Modal from 'web3modal';
 
+import { ColorModeToggle } from './ColorModeToggle';
+import { LogoButton } from './LogoButton';
+import { Search } from './Search';
+
 export const HeaderBody = () => {
   const [account, setAccount] = useState(null);
   const router = useRouter();
-  const { colorMode, toggleColorMode } = useColorMode();
 
   useEffect(() => {
     const checkConnection = async () => {
@@ -47,14 +50,10 @@ export const HeaderBody = () => {
   };
 
   return (
-    <Flex>
-      <Button
-        onClick={() => {
-          router.push('/');
-        }}
-      >
-        home
-      </Button>
+    <Flex p='4'>
+      <LogoButton />
+      <Search />
+      <Spacer />
       <Button
         onClick={() => {
           router.push('/create-collection');
@@ -62,9 +61,7 @@ export const HeaderBody = () => {
       >
         Collection
       </Button>
-      <Button onClick={toggleColorMode}>
-        Toggle {colorMode === 'light' ? 'Dark' : 'Light'}
-      </Button>
+      <ColorModeToggle />
       {renderConnectButton()}
     </Flex>
   );

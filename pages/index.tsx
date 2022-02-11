@@ -11,6 +11,7 @@ import {
 
 import NFT from '../artifacts/contracts/BorealisRoyalty.sol/BorealisRoyalty.json';
 import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json';
+import { HeroBody } from '@components/Hero/HeroBody';
 
 export default function Home() {
   const [nfts, setNfts] = useState([]);
@@ -34,8 +35,7 @@ export default function Home() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <Text>Hello from chakra</Text>
-      <Button>Click me</Button>
+      <HeroBody />
     </Flex>
   );
 }

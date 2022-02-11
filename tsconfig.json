@@ -23,6 +23,7 @@
       "@components/*": ["components/*"],
       "@context/*": ["context/*"],
       "@styles/*": ["styles/*"],
+      "@assets/*": ["assets/*"],
       "@utils/*": ["utils/*"]
     }
   },
