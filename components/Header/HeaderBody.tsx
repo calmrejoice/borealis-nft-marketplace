@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Flex, Text, Button } from '@chakra-ui/react';
+import { Flex, Text, Button, useColorMode } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
 import Web3Modal from 'web3modal';
@@ -7,6 +7,7 @@ import Web3Modal from 'web3modal';
 export const HeaderBody = () => {
   const [account, setAccount] = useState(null);
   const router = useRouter();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   useEffect(() => {
     const checkConnection = async () => {
@@ -60,6 +61,9 @@ export const HeaderBody = () => {
         }}
       >
         Collection
+      </Button>
+      <Button onClick={toggleColorMode}>
+        Toggle {colorMode === 'light' ? 'Dark' : 'Light'}
       </Button>
       {renderConnectButton()}
     </Flex>
