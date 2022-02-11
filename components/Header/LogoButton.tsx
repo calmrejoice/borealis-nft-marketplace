@@ -8,7 +8,7 @@ export const LogoButton = () => {
   const router = useRouter();
 
   return (
-    <Flex marginX='4' alignItems='center'>
+    <Flex alignItems='center'>
       <Logo />
       <Button
         onClick={() => {

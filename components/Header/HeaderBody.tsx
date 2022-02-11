@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Flex, Text, Button, Spacer } from '@chakra-ui/react';
+import { HStack, Button, Spacer } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
 import Web3Modal from 'web3modal';
@@ -50,7 +50,7 @@ export const HeaderBody = () => {
   };
 
   return (
-    <Flex p='4'>
+    <HStack p='4' spacing='4'>
       <LogoButton />
       <Search />
       <Spacer />
@@ -63,6 +63,6 @@ export const HeaderBody = () => {
       </Button>
       <ColorModeToggle />
       {renderConnectButton()}
-    </Flex>
+    </HStack>
   );
 };

@@ -1,26 +1,17 @@
 // theme.ts
 
 // 1. import `extendTheme` function
-import { extendTheme, type ThemeConfig } from '@chakra-ui/react';
+import { extendTheme } from '@chakra-ui/react';
 
 // 2. Add your color mode config
-const config: ThemeConfig = {
+const config = {
   initialColorMode: 'dark',
   useSystemColorMode: true,
 };
 
 const colors = {
   brand: {
-    50: '#D0E6FF',
-    100: '#B9DAFF',
-    200: '#A2CDFF',
-    300: '#7AB8FF',
-    400: '#2E90FF',
-    500: '#0078FF',
-    600: '#0063D1',
-    700: '#0052AC',
-    800: '#003C7E',
-    900: '#002C5C',
+    500: '#FFD600',
   },
 };
 
