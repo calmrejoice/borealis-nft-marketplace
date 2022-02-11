@@ -5,9 +5,9 @@ import {
   nftMarketAddress,
 } from '../config/contractAddresses';
 
-import FactoryAbi from '../artifacts/contracts/NFTCollectionFactory.sol/CollectionFactory.json';
-import NftABI from '../artifacts/contracts/BorealisRoyalty.sol/BorealisRoyalty.json';
-import MarketPlaceABI from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json';
+import FactoryAbi from '@abi/CollectionFactory.json';
+import NftABI from '@abi/BorealisRoyalty.json';
+import MarketPlaceABI from '@abi/NFTMarket.json';
 
 const Web3Context = createContext();
 

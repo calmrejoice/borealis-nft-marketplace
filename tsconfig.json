@@ -24,7 +24,8 @@
       "@context/*": ["context/*"],
       "@styles/*": ["styles/*"],
       "@assets/*": ["assets/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@abi/*": ["abi/*"]
     }
   },
   "include": [
