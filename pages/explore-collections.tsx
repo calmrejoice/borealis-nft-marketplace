@@ -1,13 +1,12 @@
 import { useContext, useState, useEffect } from 'react';
 import { Text, Flex, Button } from '@chakra-ui/react';
 
-import Web3Context from '../context/Web3Context';
+import { ExploreCollectionBody } from '@components/ExploreCollection/ExploreCollectionBody';
 
 export default function ExploreCollectionsPage() {
   return (
     <Flex>
-      <Text>Hello i am explore collections page</Text>
-      <Button>Click me</Button>
+      <ExploreCollectionBody />
     </Flex>
   );
 }

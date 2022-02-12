@@ -1,0 +1,11 @@
+.animate-on-hover img {
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  -webkit-transition: 0.6s ease-in-out;
+  transition: 0.6s ease-in-out;
+}
+
+.animate-on-hover:hover img {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
