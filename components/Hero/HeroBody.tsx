@@ -1,8 +1,11 @@
 import { Flex, HStack, Heading, Button } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 
 import { MarketplaceAnimation } from './MarketplaceAnimation';
 
 export const HeroBody = () => {
+  const router = useRouter();
+
   return (
     <Flex mx='auto' mt='16'>
       <Flex
@@ -17,10 +20,24 @@ export const HeroBody = () => {
           chain.
         </Heading>
         <HStack alignSelf='flex-start' mt='16' spacing='4'>
-          <Button size='lg' shadow='lg' variant='solid'>
+          <Button
+            size='lg'
+            shadow='lg'
+            variant='solid'
+            onClick={() => {
+              router.push('/explore-collections');
+            }}
+          >
             Explore
           </Button>
-          <Button size='lg'>Create</Button>
+          <Button
+            size='lg'
+            onClick={() => {
+              router.push('/create-collection');
+            }}
+          >
+            Create
+          </Button>
         </HStack>
       </Flex>
 

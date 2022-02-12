@@ -1,10 +1,11 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import { ethers, Contract, utils } from 'ethers';
+import Web3Modal from 'web3modal';
+
 import {
   nftCollectionFactoryAddress,
   nftMarketAddress,
 } from '../config/contractAddresses';
-
 import FactoryAbi from '@abi/CollectionFactory.json';
 import NftABI from '@abi/BorealisRoyalty.json';
 import MarketPlaceABI from '@abi/NFTMarket.json';
@@ -17,6 +18,35 @@ export const Web3Provider = (props) => {
   const [account, setAccount] = useState();
   const [signer, setSigner] = useState();
   const functionsToExport = {};
+
+  useEffect(() => {
+    const checkConnection = async () => {
+      if (window.ethereum) {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const addresses = await provider.listAccounts();
+        if (addresses.length) {
+          setAccount(addresses[0]);
+        } else {
+          return;
+        }
+      }
+    };
+    checkConnection();
+  }, []);
+
+  functionsToExport.connectWallet = async () => {
+    try {
+      const web3Modal = new Web3Modal();
+      const connection = await web3Modal.connect();
+      const provider = new ethers.providers.Web3Provider(connection);
+
+      const signer = provider.getSigner();
+      const userAddress = await signer.getAddress();
+      setAccount(userAddress);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   functionsToExport.extensionSetup = async () => {
     // A Web3Provider wraps a standard Web3 provider, which is
