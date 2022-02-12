@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { Flex, Text, LinkBox, Badge, HStack } from '@chakra-ui/react';
+import { Flex, Text, Badge, HStack } from '@chakra-ui/react';
 import { MdVerified } from 'react-icons/md';
+import { useRouter } from 'next/router';
 
 import { MotionChakraImage } from '@components/Animated/MotionChakraImage';
 
 export const CollectionCard = () => {
-  const [onHover, setOnHover] = useState(false);
+  const router = useRouter();
 
   return (
     <Flex
@@ -17,14 +17,17 @@ export const CollectionCard = () => {
       height='400px'
       cursor='pointer'
       className='animate-on-hover'
-      onMouseEnter={() => setOnHover(true)}
-      onMouseLeave={() => setOnHover(false)}
+      onClick={() => {
+        router.push('/explore-collections/testing');
+      }}
     >
-      <Flex maxH='200px' overflow='hidden'>
-        <MotionChakraImage
-          src='/twittercoverpicture.jpg'
-          alt='Collection banner'
-        />
+      <Flex
+        maxH='200px'
+        overflow='hidden'
+        justifyContent='center'
+        alignItems='center'
+      >
+        <MotionChakraImage src='/placeholder.jpg' alt='Collection banner' />
       </Flex>
 
       <HStack alignItems='center' mt='8'>
@@ -33,7 +36,9 @@ export const CollectionCard = () => {
         </Text>
         <MdVerified />
       </HStack>
-      <Badge />
+      <Badge colorScheme='green' mt='2'>
+        Art
+      </Badge>
       <Text m='4' textAlign='center' noOfLines={3} color='gray.500'>
         Collection NameCollection NameCollection NameCollection NameCollection
         NameCollection NameCollection NameCollection NameCollection
