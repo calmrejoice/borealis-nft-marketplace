@@ -3,6 +3,7 @@ import { Text, Flex, Button } from '@chakra-ui/react';
 
 import Web3Context from '../context/Web3Context';
 import { ConnectWalletMessage } from '@components/ConnectWalletMessage';
+import { CreateCollectionBody } from '@components/CreateCollection/CreateCollectionBody';
 
 export default function CreateCollectionPage() {
   const { account } = useContext(Web3Context);
@@ -11,8 +12,7 @@ export default function CreateCollectionPage() {
 
   return (
     <Flex>
-      <Text>Hello i am create collection</Text>
-      <Button>Click me</Button>
+      <CreateCollectionBody />
     </Flex>
   );
 }
