@@ -4,6 +4,7 @@ import { ethers } from 'ethers';
 
 import Web3Context from '../context/Web3Context';
 import { ConnectWalletMessage } from '@components/ConnectWalletMessage';
+import { AccountBody } from '@components/Account/AccountBody';
 
 export default function AccountPage() {
   const { account } = useContext(Web3Context);
@@ -12,8 +13,7 @@ export default function AccountPage() {
 
   return (
     <Flex>
-      <Text>Hello i am accounts page</Text>
-      <Button>Click me</Button>
+      <AccountBody />
     </Flex>
   );
 }

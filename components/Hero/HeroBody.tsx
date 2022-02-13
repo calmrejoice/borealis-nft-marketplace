@@ -16,8 +16,7 @@ export const HeroBody = () => {
       >
         <Heading>Discover, collect, and sell extraordinary NFTs</Heading>
         <Heading as='h2' fontSize='xl' fontWeight='medium' mt={8}>
-          Borealis marketplace is the largest NFT marketplace on the Aurora
-          chain.
+          Borealis is the largest NFT marketplace on the Aurora chain.
         </Heading>
         <HStack alignSelf='flex-start' mt='16' spacing='4'>
           <Button
