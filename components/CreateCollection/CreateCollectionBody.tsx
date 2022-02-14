@@ -90,11 +90,37 @@ export const CreateCollectionBody = () => {
         image: pinFileResponse.data.IpfsHash,
       });
       toast({
-        description: `'Metadata uploaded ${pinJSONResponse.data.IpfsHash}. Please complete the transaction.'`,
+        description: `Metadata uploaded ${pinJSONResponse.data.IpfsHash}. Please complete the transaction.`,
         status: 'success',
       });
 
       // Complete collection creation on blockchain
+      await axios.patch('/api/pinata/unPin', {
+        hash: pinFileResponse.data.IpfsHash,
+      });
+      await axios.patch('/api/pinata/unPin', {
+        hash: pinJSONResponse.data.IpfsHash,
+      });
+
+      toast({
+        description: `Transaction failed, collection and metadata unpinned from IPFS.`,
+        status: 'error',
+      });
+      // const txn = await createCollection();
+      // if (txn) {
+      //   console.log(txn);
+      // } else {
+      //   await axios.patch('/api/pinata/unPin', {
+      //     hash: pinFileResponse.data.IpfsHash,
+      //   });
+      //   await axios.patch('/api/pinata/unPin', {
+      //     hash: pinJSONResponse.data.IpfsHash,
+      //   });
+      //   toast({
+      //     description: `Transaction failed, collection unpinned from IPFS.`,
+      //     status: 'error',
+      //   });
+      // }
 
       setIsLoading(false);
     } catch (error) {
