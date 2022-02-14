@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext, useEffect } from 'react';
 import {
   Flex,
   Text,
@@ -14,10 +14,27 @@ import {
   Image,
   Center,
   Button,
+  useToast,
 } from '@chakra-ui/react';
 import { AiFillPicture } from 'react-icons/ai';
+import { create as ipfsHttpClient } from 'ipfs-http-client';
+import axios from 'axios';
+
+import Web3Context from '@context/Web3Context';
+import { testAuthentication } from '@config/axios';
+
+const client = ipfsHttpClient({ url: 'https://ipfs.infura.io:5001/api/v0' });
 
 export const CreateCollectionBody = () => {
+  const { createCollection, getCollectionCreationPrice } =
+    useContext(Web3Context);
+  const [cost, setCost] = useState();
+
+  const [fileUrl, setFileUrl] = useState(null);
+  const [file, setFile] = useState(null);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
   const [metaData, setMetaData] = useState({
     name: '',
     symbol: '',
@@ -27,6 +44,15 @@ export const CreateCollectionBody = () => {
     image: '',
     file: '',
   });
+
+  // useEffect(() => {
+  //   const getF = async () => {
+  //     setCost((await getCollectionCreationPrice()).toNumber());
+  //   };
+  //   getF();
+  // }, []);
+
+  // Upload to IPFS
 
   const handleInputChange = (field, value) => {
     const newMetaData = { ...metaData };
@@ -38,14 +64,51 @@ export const CreateCollectionBody = () => {
 
   const [previewImage, setPreviewImage] = useState('');
 
-  console.log(metaData);
+  const onCreate = async () => {
+    if (!metaData.name || !metaData.file || !metaData.symbol) {
+      toast({
+        status: 'error',
+        description: 'Please fill in all the required fields.',
+      });
+      return;
+    }
+    setIsLoading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      // Pin file to pinata
+      const pinFileResponse = await axios.post('/api/pinata/pinFile', formData);
+      toast({
+        description: `File uploaded, Image Hash: ${pinFileResponse.data.IpfsHash}. Uploading metadata...`,
+        status: 'success',
+      });
+
+      // Pin metadata to pinata
+      const pinJSONResponse = await axios.post('/api/pinata/pinJSON', {
+        ...metaData,
+        image: pinFileResponse.data.IpfsHash,
+      });
+      toast({
+        description: `'Metadata uploaded ${pinJSONResponse.data.IpfsHash}. Please complete the transaction.'`,
+        status: 'success',
+      });
+
+      // Complete collection creation on blockchain
+
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Flex justifyContent='center' width='100vw'>
       <VStack alignItems='flex-start' spacing='8' my='16'>
         <Heading>Create a Collection</Heading>
         <FormControl isRequired>
-          <FormLabel htmlFor='image'>Logo image</FormLabel>
+          <FormLabel htmlFor='image'>Banner image</FormLabel>
           <Flex
             border={previewImage ? 'none' : 'dotted'}
             borderColor='gray.300'
@@ -83,6 +146,7 @@ export const CreateCollectionBody = () => {
                 if (selectedImage) {
                   handleInputChange('file', selectedImage);
                   setPreviewImage(URL.createObjectURL(selectedImage));
+                  setFile(selectedImage);
                 }
               }}
             />
@@ -105,7 +169,7 @@ export const CreateCollectionBody = () => {
             Example: The Wonderful Polar Exploration.
           </FormHelperText>
         </FormControl>
-        <FormControl>
+        <FormControl isRequired>
           <FormLabel htmlFor='symbol'>Symbol</FormLabel>
           <Input
             id='symbol'
@@ -145,7 +209,12 @@ export const CreateCollectionBody = () => {
             Adding a category will help make your item discoverable on Borealis.
           </FormHelperText>
         </FormControl>
-        <Button variant='solid' size='lg'>
+        <Button
+          variant='solid'
+          size='lg'
+          onClick={onCreate}
+          isLoading={isLoading}
+        >
           Create
         </Button>
       </VStack>

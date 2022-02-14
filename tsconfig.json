@@ -25,6 +25,7 @@
       "@styles/*": ["styles/*"],
       "@assets/*": ["assets/*"],
       "@utils/*": ["utils/*"],
+      "@config/*": ["config/*"],
       "@abi/*": ["abi/*"]
     }
   },
@@ -32,7 +33,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "pages/_document.js"  ],
+, "pages/_document.js", "config/axios.ts"  ],
   "exclude": [
     "node_modules"
   ]
