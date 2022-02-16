@@ -4,7 +4,7 @@ import { MdVerified } from 'react-icons/md';
 import { useRouter } from 'next/router';
 
 import { MotionChakraImage } from '@components/Animated/MotionChakraImage';
-import { getJSONfromHash } from '@config/axios';
+import { getJSONfromHash, imageSourceBaseURL } from '@config/axios';
 
 export const CollectionCard = ({ collection = {} }) => {
   const router = useRouter();
@@ -46,11 +46,7 @@ export const CollectionCard = ({ collection = {} }) => {
         alignItems='center'
       >
         <MotionChakraImage
-          src={
-            image
-              ? `https://gateway.pinata.cloud/ipfs/${image}`
-              : '/placeholder.jpg'
-          }
+          src={image ? imageSourceBaseURL + image : '/placeholder.jpg'}
           alt='Collection banner'
         />
       </Flex>

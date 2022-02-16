@@ -29,6 +29,10 @@ export const Web3Provider = (props) => {
     getCollections: (startIndex, endIndex) => {},
     getUserCollections: () => {},
     mint: (metadata, royaltyPercentage, contractAddress) => {},
+    tokenURI: (tokenID, contractAddress) => {},
+    balanceOf: (userAddress, contractAddress) => {},
+    tokenByIndex: (contractAddress, index) => {},
+    tokenOfOwnerByIndex: (ownerAddress, contractAddress, index) => {},
   };
 
   const toast = useToast();
@@ -43,7 +47,6 @@ export const Web3Provider = (props) => {
           setIsOnAurora(false);
         }
         const addresses = await provider.listAccounts();
-        console.log(chainId);
         if (addresses.length) {
           setAccount(addresses[0]);
         } else {
@@ -249,6 +252,66 @@ export const Web3Provider = (props) => {
     return await showTransactionProgress(
       nftContract.mint(metadata, royaltyPercentage)
     );
+  };
+
+  functionsToExport.tokenURI = async (tokenID, contractAddress) => {
+    const signer = await checkSigner();
+    const nftContract = new Contract(
+      contractAddress,
+      BorealisRoyalty.abi,
+      signer
+    );
+    const result = await nftContract.tokenURI(tokenID);
+    console.log(result);
+    return result;
+  };
+
+  functionsToExport.balanceOf = async (userAddress, contractAddress) => {
+    const signer = await checkSigner();
+
+    try {
+      const nftContract = new Contract(
+        contractAddress,
+        BorealisRoyalty.abi,
+        signer
+      );
+      const result = await nftContract.balanceOf(userAddress);
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  functionsToExport.tokenByIndex = async (contractAddress, index) => {
+    const signer = await checkSigner();
+
+    try {
+      const nftContract = new Contract(
+        contractAddress,
+        BorealisRoyalty.abi,
+        signer
+      );
+      const result = await nftContract.tokenByIndex(index);
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  functionsToExport.tokenOfOwnerByIndex = async (
+    ownerAddress,
+    index,
+    contractAddress
+  ) => {
+    const signer = await checkSigner();
+    const nftContract = new Contract(
+      contractAddress,
+      BorealisRoyalty.abi,
+      signer
+    );
+    const result = await nftContract.tokenOfOwnerByIndex(ownerAddress, index);
+    console.log(result);
+    return result;
   };
 
   return (

@@ -2,9 +2,14 @@ import { Flex, Text, Image, Button, HStack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
 import { MotionChakraImage } from '@components/Animated/MotionChakraImage';
+import { imageSourceBaseURL } from '@config/axios';
 
-export const NFTCard = () => {
+export const NFTCard = ({ nft }) => {
   const router = useRouter();
+
+  const { metaData, contractAddress, ownerAddress, tokenURI } = nft;
+
+  const { name, description, image, royalty } = metaData;
 
   return (
     <Flex
@@ -16,14 +21,16 @@ export const NFTCard = () => {
       cursor='pointer'
       className='animate-on-hover'
       onClick={() => {
-        router.push('/nft/testing');
+        router.push(
+          `/nft/${contractAddress}?hash=${tokenURI}?owner=${ownerAddress}`
+        );
       }}
     >
       <Flex overflow='hidden' boxSize='200px'>
-        <MotionChakraImage src='/nft.jpg' alt='nft' />
+        <MotionChakraImage src={imageSourceBaseURL + image} alt='nft' />
       </Flex>
       <Text mb='4' fontWeight='bold'>
-        NFT Name
+        {name}
       </Text>
       <HStack my='8'>
         <Button>💰 Buy</Button>

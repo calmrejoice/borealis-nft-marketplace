@@ -21,7 +21,7 @@ export const MotionChakraImage = ({ src, alt, ...props }) => {
         src={src}
         alt={alt}
         borderTopRadius='md'
-        fallbackSrc={'/logos/placeholder'}
+        fallbackSrc={'/placeholder.jpg'}
         placeholder={null}
         objectPosition='center'
         objectFit='cover'
