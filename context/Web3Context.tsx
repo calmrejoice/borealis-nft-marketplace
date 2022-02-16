@@ -28,6 +28,7 @@ export const Web3Provider = (props) => {
     totalCollections: () => {},
     getCollections: (startIndex, endIndex) => {},
     getUserCollections: () => {},
+    mint: (metadata, royaltyPercentage, contractAddress) => {},
   };
 
   const toast = useToast();
@@ -231,6 +232,23 @@ export const Web3Provider = (props) => {
     );
     console.log(result);
     return result;
+  };
+
+  //NFT functions
+  functionsToExport.mint = async (
+    metadata,
+    royaltyPercentage,
+    contractAddress
+  ) => {
+    const signer = await checkSigner();
+    const nftContract = new Contract(
+      contractAddress,
+      BorealisRoyalty.abi,
+      signer
+    );
+    return await showTransactionProgress(
+      nftContract.mint(metadata, royaltyPercentage)
+    );
   };
 
   return (

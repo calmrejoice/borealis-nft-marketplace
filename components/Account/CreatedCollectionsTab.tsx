@@ -14,9 +14,11 @@ export const CreatedCollectionsTab = ({ userCollections }) => {
   return (
     <Flex>
       {userCollections.map((collection) => {
-        const { contractAddress, metaDataHash } = collection;
         return (
-          <CollectionCard key={contractAddress} collection={metaDataHash} />
+          <CollectionCard
+            key={collection.contractAddress}
+            collection={collection}
+          />
         );
       })}
     </Flex>

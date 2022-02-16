@@ -6,14 +6,15 @@ import { useRouter } from 'next/router';
 import { MotionChakraImage } from '@components/Animated/MotionChakraImage';
 import { getJSONfromHash } from '@config/axios';
 
-export const CollectionCard = ({ collection = '' }) => {
+export const CollectionCard = ({ collection = {} }) => {
   const router = useRouter();
   const [metaData, setMetaData]: any = useState({});
+  const { contractAddress, metaDataHash }: any = collection;
 
   useEffect(() => {
     const fetchMetaData = async () => {
-      if (!collection) return;
-      const { data } = await getJSONfromHash(collection);
+      if (!metaDataHash) return;
+      const { data } = await getJSONfromHash(metaDataHash);
       setMetaData(data);
     };
 
@@ -33,7 +34,9 @@ export const CollectionCard = ({ collection = '' }) => {
       cursor='pointer'
       className='animate-on-hover'
       onClick={() => {
-        router.push('/explore-collections/testing');
+        router.push(
+          `/explore-collections/${contractAddress}?hash=${metaDataHash}`
+        );
       }}
     >
       <Flex
