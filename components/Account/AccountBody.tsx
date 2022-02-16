@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   Flex,
   Text,
@@ -20,11 +20,21 @@ export const AccountBody = () => {
   const { query } = router;
   const { tab } = query;
 
-  const { account } = useContext(Web3Context);
+  const { account, getUserCollections } = useContext(Web3Context);
+  const [userCollections, setUserCollections] = useState([]);
+
+  useEffect(() => {
+    const fetch = async () => {
+      const result = await getUserCollections();
+      setUserCollections(result);
+    };
+
+    fetch();
+  }, []);
 
   const renderTab = () => {
     if (!tab || tab === 'createdCollections') {
-      return <CreatedCollectionsTab />;
+      return <CreatedCollectionsTab userCollections={userCollections} />;
     }
     if (tab === 'collectedNfts') {
       return <CollectedNFTsTab />;

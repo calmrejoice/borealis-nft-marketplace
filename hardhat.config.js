@@ -19,6 +19,10 @@ module.exports = {
     hardhat: {
       chainId: 1337,
     },
+    mumbai: {
+      url: 'https://matic-mumbai.chainstacklabs.com',
+      accounts: [privateKey1],
+    },
     auroraTestnet: {
       url: 'https://testnet.aurora.dev',
       accounts: [privateKey1],
@@ -30,6 +34,13 @@ module.exports = {
       chainId: 1313161554,
     },
   },
-
-  solidity: '0.8.4',
+  solidity: {
+    version: '0.8.4',
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200,
+      },
+    },
+  },
 };

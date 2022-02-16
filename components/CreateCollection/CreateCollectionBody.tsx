@@ -17,18 +17,15 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { AiFillPicture } from 'react-icons/ai';
-import { create as ipfsHttpClient } from 'ipfs-http-client';
+import { utils } from 'ethers';
 import axios from 'axios';
 
 import Web3Context from '@context/Web3Context';
-import { testAuthentication } from '@config/axios';
-
-const client = ipfsHttpClient({ url: 'https://ipfs.infura.io:5001/api/v0' });
 
 export const CreateCollectionBody = () => {
-  const { createCollection, getCollectionCreationPrice } =
+  const { createCollection, getCollectionCreationPrice, setListingPrice } =
     useContext(Web3Context);
-  const [cost, setCost] = useState();
+  const [cost, setCost] = useState(0);
 
   const [fileUrl, setFileUrl] = useState(null);
   const [file, setFile] = useState(null);
@@ -45,14 +42,12 @@ export const CreateCollectionBody = () => {
     file: '',
   });
 
-  // useEffect(() => {
-  //   const getF = async () => {
-  //     setCost((await getCollectionCreationPrice()).toNumber());
-  //   };
-  //   getF();
-  // }, []);
-
-  // Upload to IPFS
+  useEffect(() => {
+    const getF = async () => {
+      setCost((await getCollectionCreationPrice()).toNumber());
+    };
+    getF();
+  }, []);
 
   const handleInputChange = (field, value) => {
     const newMetaData = { ...metaData };
@@ -94,37 +89,46 @@ export const CreateCollectionBody = () => {
         status: 'success',
       });
 
-      // Complete collection creation on blockchain
-      await axios.patch('/api/pinata/unPin', {
-        hash: pinFileResponse.data.IpfsHash,
-      });
-      await axios.patch('/api/pinata/unPin', {
-        hash: pinJSONResponse.data.IpfsHash,
-      });
+      const transactionFee = cost.toString() || utils.parseEther('0.025');
 
-      toast({
-        description: `Transaction failed, collection and metadata unpinned from IPFS.`,
-        status: 'error',
-      });
-      // const txn = await createCollection();
-      // if (txn) {
-      //   console.log(txn);
-      // } else {
-      //   await axios.patch('/api/pinata/unPin', {
-      //     hash: pinFileResponse.data.IpfsHash,
-      //   });
-      //   await axios.patch('/api/pinata/unPin', {
-      //     hash: pinJSONResponse.data.IpfsHash,
-      //   });
-      //   toast({
-      //     description: `Transaction failed, collection unpinned from IPFS.`,
-      //     status: 'error',
-      //   });
-      // }
+      // Complete collection creation on blockchain
+      const txn = await createCollection(
+        metaData.name,
+        metaData.symbol,
+        pinJSONResponse.data.IpfsHash,
+        transactionFee
+      );
+      if (txn) {
+        console.log(txn);
+      } else {
+        await axios.patch('/api/pinata/unPin', {
+          hash: pinFileResponse.data.IpfsHash,
+        });
+        await axios.patch('/api/pinata/unPin', {
+          hash: pinJSONResponse.data.IpfsHash,
+        });
+        toast({
+          description: `Transaction failed, collection unpinned from IPFS.`,
+          status: 'error',
+        });
+      }
 
       setIsLoading(false);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
+    }
+  };
+
+  const onSetListingPrice = async () => {
+    setIsLoading(true);
+    const newListingPrice = utils.parseEther('0.000025');
+    const txn = await setListingPrice(newListingPrice);
+    if (txn) {
+      console.log(txn, 'New listing price set.');
+      setIsLoading(false);
+    } else {
+      console.log('Set listing price transaction failed.');
       setIsLoading(false);
     }
   };
@@ -242,6 +246,15 @@ export const CreateCollectionBody = () => {
           isLoading={isLoading}
         >
           Create
+        </Button>
+
+        <Button
+          variant='solid'
+          size='lg'
+          onClick={onSetListingPrice}
+          isLoading={isLoading}
+        >
+          Set Listing Price
         </Button>
       </VStack>
     </Flex>

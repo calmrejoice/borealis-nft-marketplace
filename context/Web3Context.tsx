@@ -4,12 +4,12 @@ import { ethers, Contract, utils } from 'ethers';
 import Web3Modal from 'web3modal';
 
 import {
-  nftCollectionFactoryAddress,
+  collectionFactoryAddress,
   nftMarketAddress,
 } from '../config/contractAddresses';
-import FactoryAbi from '@abi/CollectionFactory.json';
-import NftABI from '@abi/BorealisRoyalty.json';
-import MarketPlaceABI from '@abi/NFTMarket.json';
+import CollectionFactory from '@abi/CollectionFactory.json';
+import BorealisRoyalty from '@abi/BorealisRoyalty.json';
+import NFTMarket from '@abi/NFTMarket.json';
 
 const Web3Context = createContext(null);
 
@@ -21,8 +21,12 @@ export const Web3Provider = (props) => {
 
   const functionsToExport = {
     connectWallet: () => {},
+    setListingPrice: (price) => {},
     getCollectionCreationPrice: () => {},
-    createCollection: () => {},
+    createCollection: (name, symbol, metadata, creationValue) => {},
+    totalCollections: () => {},
+    getCollections: (startIndex, endIndex) => {},
+    getUserCollections: () => {},
   };
 
   const toast = useToast();
@@ -68,61 +72,67 @@ export const Web3Provider = (props) => {
   };
 
   const checkSigner = async () => {
-    if (!signer) {
-      await functionsToExport.connectWallet();
-    }
-    return true;
+    const web3Modal = new Web3Modal();
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+
+    const signer = provider.getSigner();
+    return signer;
   };
 
   const showTransactionProgress = async (result) => {
-    console.log('Alert!', 'Transaction Initiated!', 'primary', 2000);
+    toast({
+      description: 'Transaction Initiated.',
+      status: 'info',
+    });
     let completeResult, receipt;
     try {
       completeResult = await Promise.resolve(result);
     } catch (e) {
-      console.log(
-        'Alert',
-        `Transaction Failed! ${e.toString()}`,
-        'danger',
-        2000
-      );
+      toast({
+        description: `Transaction Failed. ${e.toString()}`,
+        status: 'error',
+      });
+
       return false;
     }
-    console.log(
-      'Alert',
-      `Transaction Sent! your hash is: ${completeResult.hash}`,
-      'success',
-      6000
-    );
+    toast({
+      description: `Transaction Sent! your hash is: ${completeResult.hash}`,
+      status: 'success',
+    });
+
     try {
       receipt = await completeResult.wait();
     } catch (e) {
-      console.log(
-        'Alert',
-        `Transaction Failed! ${e.toString()}`,
-        'danger',
-        2000
-      );
+      toast({
+        description: `Transaction Failed! ${e.toString()}`,
+        status: 'error',
+      });
+
       return false;
     }
 
     if (receipt.status === 1) {
+      toast({
+        description: 'Transaction Completed Successfully.',
+        status: 'success',
+      });
       console.log('Alert', `Transaction Success!`, 'success', 2000);
     } else {
-      console.log('Alert', `Transaction Failed!`, 'danger', 2000);
+      toast({
+        description: `Transaction Failed! Please try again.`,
+        status: 'error',
+      });
     }
     return receipt;
   };
 
-  // Get collection creation price
+  /**Collection Functions */
   functionsToExport.getCollectionCreationPrice = async () => {
-    await checkSigner();
-    console.log(FactoryAbi);
-    console.log(signer);
+    const signer = await checkSigner();
     const factoryContract = new Contract(
-      nftCollectionFactoryAddress,
-      // @ts-ignore
-      FactoryAbi,
+      collectionFactoryAddress,
+      CollectionFactory.abi,
       signer
     );
     console.log(factoryContract);
@@ -131,22 +141,16 @@ export const Web3Provider = (props) => {
     return result;
   };
 
-  // @ts-ignore
   functionsToExport.createCollection = async (
     name,
     symbol,
     metadata,
     creationValue
   ) => {
-    await checkSigner();
-    console.log(name, metadata, symbol, creationValue);
-    console.log(metadata);
-    console.log(symbol);
-    console.log(creationValue);
+    const signer = await checkSigner();
     const factoryContract = new Contract(
-      nftCollectionFactoryAddress,
-      // @ts-ignore
-      FactoryAbi,
+      collectionFactoryAddress,
+      CollectionFactory.abi,
       signer
     );
 
@@ -155,6 +159,67 @@ export const Web3Provider = (props) => {
         value: creationValue,
       })
     );
+  };
+
+  functionsToExport.setListingPrice = async (price) => {
+    const signer = await checkSigner();
+    const factoryContract = new Contract(
+      collectionFactoryAddress,
+      CollectionFactory.abi,
+      signer
+    );
+
+    return await showTransactionProgress(factoryContract.setPrice(price));
+  };
+
+  functionsToExport.getCollectionCreationPrice = async () => {
+    const signer = await checkSigner();
+    const factoryContract = new Contract(
+      collectionFactoryAddress,
+      CollectionFactory.abi,
+      signer
+    );
+    const result = await factoryContract.getPrice();
+    return result;
+  };
+
+  functionsToExport.totalCollections = async () => {
+    const signer = await checkSigner();
+    const factoryContract = new Contract(
+      collectionFactoryAddress,
+      CollectionFactory.abi,
+      signer
+    );
+    const result = await factoryContract.totalCollections();
+    return result;
+    console.log(result);
+  };
+
+  functionsToExport.getUserCollections = async () => {
+    const signer = await checkSigner();
+    const factoryContract = new Contract(
+      collectionFactoryAddress,
+      CollectionFactory.abi,
+      signer
+    );
+    const result = await factoryContract.getUserCollections();
+    console.log(result);
+    return result;
+  };
+
+  functionsToExport.getCollections = async (startIndex, endIndex) => {
+    const signer = await checkSigner();
+    const factoryContract = new Contract(
+      collectionFactoryAddress,
+      CollectionFactory.abi,
+      signer
+    );
+    const result = await factoryContract.getCollectionsPaginated(
+      startIndex,
+      endIndex
+    );
+    console.log(result);
+    return result;
   };
 
   return (
