@@ -44,7 +44,9 @@ export const CollectionCard = ({ collection = '' }) => {
       >
         <MotionChakraImage
           src={
-            image ? `https://ipfs.infura.io/ipfs/${image}` : '/placeholder.jpg'
+            image
+              ? `https://gateway.pinata.cloud/ipfs/${image}`
+              : '/placeholder.jpg'
           }
           alt='Collection banner'
         />

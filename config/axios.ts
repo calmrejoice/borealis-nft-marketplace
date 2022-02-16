@@ -48,5 +48,9 @@ export const unPin = (hash) => {
   return instance.delete(url, getHeader());
 };
 export const getJSONfromHash = (hash) => {
-  return axios.get(`https://ipfs.infura.io/ipfs/${hash}`);
+  const baseURL =
+    process.env.NODE_ENV === 'development'
+      ? 'https://ipfs.infura.io/ipfs/'
+      : 'https://gateway.pinata.cloud/ipfs/';
+  return axios.get(baseURL + hash);
 };

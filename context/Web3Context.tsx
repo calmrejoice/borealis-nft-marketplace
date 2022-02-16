@@ -17,6 +17,7 @@ export const Web3Provider = (props) => {
   const URL = 'https://testnet.aurora.dev';
 
   const [account, setAccount] = useState('');
+  const [isOnAurora, setIsOnAurora] = useState(true);
   const [signer, setSigner] = useState(null);
 
   const functionsToExport = {
@@ -35,7 +36,13 @@ export const Web3Provider = (props) => {
     const checkConnection = async () => {
       if (window.ethereum) {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+        const { chainId } = await provider.getNetwork();
+        if (!chainId || chainId !== 1313161555) {
+          setIsOnAurora(false);
+        }
         const addresses = await provider.listAccounts();
+        console.log(chainId);
         if (addresses.length) {
           setAccount(addresses[0]);
         } else {
@@ -202,9 +209,13 @@ export const Web3Provider = (props) => {
       CollectionFactory.abi,
       signer
     );
-    const result = await factoryContract.getUserCollections();
-    console.log(result);
-    return result;
+    try {
+      const result = await factoryContract.getUserCollections();
+      console.log(result);
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   functionsToExport.getCollections = async (startIndex, endIndex) => {
@@ -223,7 +234,7 @@ export const Web3Provider = (props) => {
   };
 
   return (
-    <Web3Context.Provider value={{ account, ...functionsToExport }}>
+    <Web3Context.Provider value={{ account, isOnAurora, ...functionsToExport }}>
       {props.children}
     </Web3Context.Provider>
   );

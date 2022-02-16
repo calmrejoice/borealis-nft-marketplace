@@ -1,32 +1,9 @@
-import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import { Text, Flex, Button } from '@chakra-ui/react';
-import { ethers } from 'ethers';
-import axios from 'axios';
+import { Flex } from '@chakra-ui/react';
 
-// import {
-//   nftCollectionFactoryAddress,
-//   nftMarketAddress,
-// } from '../config/contractAddresses';
-
-// import NFT from '../artifacts/contracts/BorealisRoyalty.sol/BorealisRoyalty.json';
-// import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json';
 import { HeroBody } from '@components/Hero/HeroBody';
 
 export default function Home() {
-  const [nfts, setNfts] = useState([]);
-  const [loading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    loadNfts();
-  }, []);
-
-  const loadNfts = async () => {
-    const provider = new ethers.providers.JsonRpcProvider(
-      'https://testnet.aurora.dev'
-    );
-  };
-
   return (
     <Flex>
       <Head>
