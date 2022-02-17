@@ -7,7 +7,7 @@ import { imageSourceBaseURL } from '@config/axios';
 export const NFTCard = ({ nft }) => {
   const router = useRouter();
 
-  const { metaData, contractAddress, ownerAddress, tokenURI } = nft;
+  const { metaData, contractAddress, ownerAddress, tokenURI, tokenId } = nft;
 
   const { name, description, image, royalty } = metaData;
 
@@ -21,9 +21,14 @@ export const NFTCard = ({ nft }) => {
       cursor='pointer'
       className='animate-on-hover'
       onClick={() => {
-        router.push(
-          `/nft/${contractAddress}?hash=${tokenURI}?owner=${ownerAddress}`
-        );
+        router.push({
+          pathname: `/explore-nfts/${contractAddress}`,
+          query: {
+            hash: tokenURI,
+            owner: ownerAddress,
+            tokenId: tokenId,
+          },
+        });
       }}
     >
       <Flex overflow='hidden' boxSize='200px'>

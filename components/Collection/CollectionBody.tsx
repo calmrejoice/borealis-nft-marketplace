@@ -84,12 +84,6 @@ export const CollectionBody = () => {
 
   const { name, symbol, title, category, description, image } = metaData;
 
-  const onGetBalance = async () => {
-    const response = await balanceOf(account, collectionAddress);
-    const result = parseInt(response.toString());
-    console.log(result);
-  };
-
   return (
     <Flex flexDir='column' alignItems='center'>
       <Flex
@@ -129,7 +123,6 @@ export const CollectionBody = () => {
       >
         Create an NFT in this collection.
       </Button>
-      <Button onClick={onGetBalance}>Get Balance</Button>
     </Flex>
   );
 };

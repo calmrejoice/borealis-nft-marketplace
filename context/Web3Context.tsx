@@ -19,6 +19,7 @@ export const Web3Provider = (props) => {
   const [account, setAccount] = useState('');
   const [isOnAurora, setIsOnAurora] = useState(true);
   const [signer, setSigner] = useState(null);
+  const [blockchainId, setBlockchainId] = useState(0);
 
   const functionsToExport = {
     connectWallet: () => {},
@@ -33,6 +34,10 @@ export const Web3Provider = (props) => {
     balanceOf: (userAddress, contractAddress) => {},
     tokenByIndex: (contractAddress, index) => {},
     tokenOfOwnerByIndex: (ownerAddress, contractAddress, index) => {},
+    createMarketItem: (NFTContractAddress, tokenID, price) => {},
+    fetchMarketItems: (ownerAddress, contractAddress, index) => {},
+    setApprovalForAll: (bool, contractAddress) => {},
+    isApprovedForAll: (userAddress, contractAddress) => {},
   };
 
   const toast = useToast();
@@ -45,6 +50,7 @@ export const Web3Provider = (props) => {
         const { chainId } = await provider.getNetwork();
         if (!chainId || chainId !== 1313161555) {
           setIsOnAurora(false);
+          setBlockchainId(chainId);
         }
         const addresses = await provider.listAccounts();
         if (addresses.length) {
@@ -55,7 +61,7 @@ export const Web3Provider = (props) => {
       }
     };
     checkConnection();
-  }, []);
+  }, [blockchainId, isOnAurora]);
 
   functionsToExport.connectWallet = async () => {
     try {
@@ -310,6 +316,69 @@ export const Web3Provider = (props) => {
       signer
     );
     const result = await nftContract.tokenOfOwnerByIndex(ownerAddress, index);
+    console.log(result);
+    return result;
+  };
+
+  //Marketplace functions
+  functionsToExport.createMarketItem = async (
+    NFTContractAddress,
+    tokenID,
+    price
+  ) => {
+    const signer = await checkSigner();
+    const etherPrice = utils.parseEther(price);
+    console.log(etherPrice);
+    const marketPlaceContract = new Contract(
+      nftMarketAddress,
+      NFTMarket.abi,
+      signer
+    );
+    return await showTransactionProgress(
+      marketPlaceContract.createMarketItem(
+        NFTContractAddress,
+        tokenID,
+        etherPrice
+      )
+    );
+  };
+
+  // Returns all unsold items
+  functionsToExport.fetchMarketItems = async () => {
+    const signer = await checkSigner();
+    const marketPlaceContract = new Contract(
+      nftMarketAddress,
+      NFTMarket.abi,
+      signer
+    );
+    const result = await marketPlaceContract.fetchMarketItems();
+    console.log(result);
+    return result;
+  };
+
+  functionsToExport.setApprovalForAll = async (bool, contractAddress) => {
+    const signer = await checkSigner();
+    const nftContract = new Contract(
+      contractAddress,
+      BorealisRoyalty.abi,
+      signer
+    );
+    return await showTransactionProgress(
+      nftContract.setApprovalForAll(nftMarketAddress, bool)
+    );
+  };
+
+  functionsToExport.isApprovedForAll = async (userAddress, contractAddress) => {
+    const signer = await checkSigner();
+    const nftContract = new Contract(
+      contractAddress,
+      BorealisRoyalty.abi,
+      signer
+    );
+    const result = await nftContract.isApprovedForAll(
+      userAddress,
+      nftMarketAddress
+    );
     console.log(result);
     return result;
   };

@@ -1,6 +1,6 @@
 import { Flex, Text, Spinner, Center } from '@chakra-ui/react';
 
-import { CollectionCard } from '@components/ExploreCollection/CollectionCard';
+import { CollectionCard } from '@components/ExploreCollections/CollectionCard';
 
 export const CreatedCollectionsTab = ({ userCollections }) => {
   if (!userCollections) {

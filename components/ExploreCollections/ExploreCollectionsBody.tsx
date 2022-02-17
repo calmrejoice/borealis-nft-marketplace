@@ -2,7 +2,7 @@ import { Flex, Text, Heading, SimpleGrid } from '@chakra-ui/react';
 
 import { CollectionCard } from './CollectionCard';
 
-export const ExploreCollectionBody = () => {
+export const ExploreCollectionsBody = () => {
   return (
     <Flex flexDir='column' mx='8' my='8' alignItems='center'>
       <Heading>Explore Collections</Heading>
