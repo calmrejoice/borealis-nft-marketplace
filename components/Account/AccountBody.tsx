@@ -14,6 +14,7 @@ import { CollectedNFTsTab } from './CollectedNFTsTab';
 import { CreatedCollectionsTab } from './CreatedCollectionsTab';
 import { ListingsTab } from './ListingsTab';
 import { TabHeaders } from './TabHeaders';
+import { truncate } from '@utils/helpfulFunctions';
 
 export const AccountBody = () => {
   const router = useRouter();
@@ -52,7 +53,7 @@ export const AccountBody = () => {
         </Avatar>
         <Button variant='outline' maxWidth='300px'>
           <Text isTruncated fontSize='lg'>
-            {account}
+            {truncate(account, 12)}
           </Text>
         </Button>
       </Flex>

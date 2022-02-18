@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
-import { Flex, Text, Center, Spinner } from '@chakra-ui/react';
+import { Flex, Text, Center, Spinner, SimpleGrid } from '@chakra-ui/react';
 
 import Web3Context from '@context/Web3Context';
 import { CollectedNFTCard } from './CollectedNFTCard';
@@ -29,10 +29,12 @@ export const CollectedNFTsTab = () => {
   }
 
   return (
-    <Flex>
-      {collectedNFTs.map((nft) => {
-        return <CollectedNFTCard key={nft.tokenId} nft={nft} />;
-      })}
+    <Flex m='16'>
+      <SimpleGrid columns={6} spacing='8'>
+        {collectedNFTs.map((nft) => {
+          return <CollectedNFTCard key={nft.tokenId} nft={nft} />;
+        })}
+      </SimpleGrid>
     </Flex>
   );
 };
