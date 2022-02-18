@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import { Flex, Button, Text, Avatar, AvatarBadge } from '@chakra-ui/react';
 
 import Web3Context from '@context/Web3Context';
+import { truncate } from '@utils/helpfulFunctions';
 
 export const ConnectWallet = () => {
   const { account, connectWallet } = useContext(Web3Context);
@@ -17,7 +18,7 @@ export const ConnectWallet = () => {
             </Avatar>
           }
         >
-          <Text isTruncated>{account}</Text>
+          <Text>{truncate(account, 12)}</Text>
         </Button>
       );
     } else {

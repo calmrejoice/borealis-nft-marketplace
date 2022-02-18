@@ -204,6 +204,7 @@ export const CreateNFTBody = () => {
           size='lg'
           onClick={onCreate}
           isLoading={isLoading}
+          colorScheme='messenger'
         >
           Create
         </Button>

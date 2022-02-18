@@ -38,6 +38,7 @@ export const ExploreNFTCard = ({ nft }) => {
   return (
     <Flex
       borderRadius='lg'
+      minWidth='200px'
       flexDir='column'
       borderWidth='thin'
       shadow='lg'

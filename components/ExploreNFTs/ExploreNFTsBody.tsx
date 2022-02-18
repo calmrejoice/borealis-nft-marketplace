@@ -1,5 +1,5 @@
 import { useEffect, useContext, useState } from 'react';
-import { Flex, Heading, SimpleGrid } from '@chakra-ui/react';
+import { Flex, Heading, SimpleGrid, Center, Spinner } from '@chakra-ui/react';
 
 import Web3Context from '@context/Web3Context';
 import { ExploreNFTCard } from './ExploreNFTCard';
@@ -27,9 +27,9 @@ export const ExploreNFTsBody = () => {
   const renderMarketItems = () => {
     if (marketItems.length === 0) {
       return (
-        <Flex>
-          <EmptyContent />
-        </Flex>
+        <Center width='100vw' my='48'>
+          <Spinner />
+        </Center>
       );
     } else {
       return (

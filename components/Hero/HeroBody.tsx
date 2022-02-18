@@ -25,7 +25,7 @@ export const HeroBody = () => {
             variant='solid'
             colorScheme='messenger'
             onClick={() => {
-              router.push('/explore-collections');
+              router.push('/explore-nfts');
             }}
           >
             Explore

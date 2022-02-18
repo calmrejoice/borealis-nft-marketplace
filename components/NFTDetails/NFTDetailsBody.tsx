@@ -54,6 +54,8 @@ export const NFTDetailsBody = () => {
           overflow='hidden'
           justifyContent='center'
           alignItems='center'
+          borderRadius='lg'
+          shadow='lg'
         >
           <MotionChakraImage
             src={image && imageSourceBaseURL + image}
@@ -66,7 +68,7 @@ export const NFTDetailsBody = () => {
         flexDir='column'
         p='8'
         borderWidth='thin'
-        shadow='dark-lg'
+        shadow='lg'
         borderRadius='lg'
       >
         <Heading>{name}</Heading>
@@ -90,10 +92,11 @@ export const NFTDetailsBody = () => {
             variant='solid'
             onClick={onBuyNFT}
             isLoading={isLoading}
+            colorScheme='messenger'
           >
             Buy for {price} ETH
           </Button>
-          <Button flex={1} variant='solid'>
+          <Button flex={1} variant='solid' colorScheme='messenger'>
             Bid
           </Button>
         </HStack>
