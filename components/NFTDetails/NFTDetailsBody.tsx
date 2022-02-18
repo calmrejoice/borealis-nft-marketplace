@@ -7,6 +7,7 @@ import {
   Heading,
   Badge,
   Spacer,
+  Input,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
@@ -18,11 +19,21 @@ import { utils } from 'ethers';
 export const NFTDetailsBody = () => {
   const router = useRouter();
   const { query } = router;
-  const { nftAddress, hash, owner, tokenId, price }: any = query;
+  const {
+    nftAddress,
+    hash,
+    owner,
+    tokenId,
+    price,
+    isAuction,
+    countdown,
+    parsedHighestBid,
+  }: any = query;
 
   const [isLoading, setIsLoading] = useState(false);
   const [metaData, setMetaData]: any = useState({});
-  const { account, buyNFT } = useContext(Web3Context);
+  const { account, buyNFT, createAuctionBid } = useContext(Web3Context);
+  const [bid, setBid] = useState('');
 
   useEffect(() => {
     const fetchMetadata = async () => {
@@ -46,6 +57,58 @@ export const NFTDetailsBody = () => {
     setIsLoading(false);
   };
 
+  const onBid = async () => {
+    setIsLoading(true);
+    await createAuctionBid(tokenId, bid);
+    setIsLoading(false);
+  };
+  const renderBidBuyButton = () => {
+    if (isAuction === 'false') {
+      return (
+        <Button
+          variant='solid'
+          onClick={onBuyNFT}
+          isLoading={isLoading}
+          colorScheme='messenger'
+        >
+          Buy for {price} ETH
+        </Button>
+      );
+    } else {
+      return (
+        <Flex flexDir='column'>
+          <HStack mb='4'>
+            <Text fontWeight='medium'>Auction will end in: </Text>
+            <Badge>{countdown}</Badge>
+          </HStack>
+          <HStack mb='4'>
+            <Text fontWeight='medium'>Starting Price:</Text>
+            <Badge colorScheme='blue'>{price} ETH</Badge>
+          </HStack>
+          <HStack mb='4'>
+            <Text fontWeight='medium'>Highest Bid:</Text>
+            <Badge colorScheme='green'>{parsedHighestBid} ETH</Badge>
+          </HStack>
+          <HStack mb='4'>
+            <Text fontWeight='medium'>Enter Bid:</Text>
+            <Input
+              placeholder='10 ETH'
+              onChange={(e) => setBid(e.target.value)}
+            />
+          </HStack>
+          <Button
+            variant='solid'
+            colorScheme='messenger'
+            onClick={onBid}
+            isLoading={isLoading}
+          >
+            Bid
+          </Button>
+        </Flex>
+      );
+    }
+  };
+
   return (
     <Flex flex={1} m='8'>
       <Flex flex={5} justifyContent='center'>
@@ -60,6 +123,7 @@ export const NFTDetailsBody = () => {
           <MotionChakraImage
             src={image && imageSourceBaseURL + image}
             alt='Collection banner'
+            boxSize='600px'
           />
         </Flex>
       </Flex>
@@ -86,20 +150,7 @@ export const NFTDetailsBody = () => {
           {royalty} %
         </Badge>
         <Spacer />
-        <HStack flex={1} justifyContent='flex-end' mt='16'>
-          <Button
-            flex={1}
-            variant='solid'
-            onClick={onBuyNFT}
-            isLoading={isLoading}
-            colorScheme='messenger'
-          >
-            Buy for {price} ETH
-          </Button>
-          <Button flex={1} variant='solid' colorScheme='messenger'>
-            Bid
-          </Button>
-        </HStack>
+        {renderBidBuyButton()}
       </Flex>
     </Flex>
   );

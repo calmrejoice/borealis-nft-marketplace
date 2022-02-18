@@ -21,6 +21,7 @@ export const ListForSaleModal = ({
   contractAddress,
   tokenId,
   createMarketItem,
+  createMarketAuction,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [saleType, setSaleType] = useState('fixed');
@@ -74,7 +75,15 @@ export const ListForSaleModal = ({
       );
       console.log(response);
       setIsLoading(false);
-    } else {
+    } else if (saleType === 'auction') {
+      const response = await createMarketAuction(
+        contractAddress,
+        tokenId,
+        initialBid,
+        numOfDays
+      );
+      console.log(response);
+      setIsLoading(false);
     }
   };
 

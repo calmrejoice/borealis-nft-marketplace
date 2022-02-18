@@ -43,6 +43,16 @@ export const Web3Provider = (props) => {
     fetchItemsCreated: () => {},
     fetchMyNFTs: () => {},
     unlistItem: (itemId) => {},
+    createMarketAuction: (
+      NFTContractAddress,
+      tokenId,
+      floorPrice,
+      auctionDays
+    ) => {},
+    createAuctionBid: (itemId, bidAmount) => {},
+    createAuctionSale: (NFTContractAddress, itemId) => {},
+    fetchUserBids: () => {},
+    startBidListening: (onBidUpdate) => {},
   };
 
   const toast = useToast();
@@ -460,6 +470,77 @@ export const Web3Provider = (props) => {
       signer
     );
     return await showTransactionProgress(nftContract.withdraw());
+  };
+
+  functionsToExport.createMarketAuction = async (
+    NFTContractAddress,
+    tokenId,
+    floorPrice,
+    auctionDays
+  ) => {
+    const signer = await checkSigner();
+    const etherPrice = utils.parseEther(floorPrice);
+
+    const marketPlaceContract = new Contract(
+      nftMarketAddress,
+      NFTMarket.abi,
+      signer
+    );
+    return await showTransactionProgress(
+      marketPlaceContract.createMarketAuction(
+        NFTContractAddress,
+        tokenId,
+        etherPrice,
+        auctionDays
+      )
+    );
+  };
+
+  functionsToExport.createAuctionBid = async (itemId, bidAmount) => {
+    const signer = await checkSigner();
+    const etherPrice = utils.parseEther(bidAmount);
+    const marketPlaceContract = new Contract(
+      nftMarketAddress,
+      NFTMarket.abi,
+      signer
+    );
+    return await showTransactionProgress(
+      marketPlaceContract.createAuctionBid(itemId, { value: etherPrice })
+    );
+  };
+
+  functionsToExport.createAuctionSale = async (NFTContractAddress, itemId) => {
+    const signer = await checkSigner();
+    const marketPlaceContract = new Contract(
+      nftMarketAddress,
+      NFTMarket.abi,
+      signer
+    );
+    return await showTransactionProgress(
+      marketPlaceContract.createAuctionSale(NFTContractAddress, itemId)
+    );
+  };
+
+  //Only bids where user is highest bidder are visible through this
+  functionsToExport.fetchUserBids = async () => {
+    const signer = await checkSigner();
+    const marketPlaceContract = new Contract(
+      nftMarketAddress,
+      NFTMarket.abi,
+      signer
+    );
+    const result = await marketPlaceContract.fetchUserBids();
+    console.log(result);
+  };
+
+  functionsToExport.startBidListening = async (onBidUpdate) => {
+    const signer = await checkSigner();
+    // const marketPlaceContract = new Contract(nftMarketAddress, NFTMarket.abi, signer);
+    // marketPlaceContract.on("MarketItemBid", (a, b, c) => {
+    //     console.log(a);
+    //     console.log(b);
+    //     console.log(c);
+    // })
   };
 
   return (

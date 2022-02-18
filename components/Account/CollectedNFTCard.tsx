@@ -13,6 +13,7 @@ export const CollectedNFTCard = ({ nft }) => {
     isApprovedForAll,
     setApprovalForAll,
     createMarketItem,
+    createMarketAuction,
   } = useContext(Web3Context);
 
   const [metaData, setMetaData]: any = useState({});
@@ -68,6 +69,7 @@ export const CollectedNFTCard = ({ nft }) => {
             createMarketItem={createMarketItem}
             tokenId={tokenId}
             contractAddress={nftContract}
+            createMarketAuction={createMarketAuction}
           />
           <Button
             onClick={onOpen}

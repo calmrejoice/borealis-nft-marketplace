@@ -8,8 +8,13 @@ import Web3Context from '@context/Web3Context';
 import { ListForSaleModal } from './ListForSaleModal';
 
 export const NFTCard = ({ nft }) => {
-  const { account, createMarketItem, setApprovalForAll, isApprovedForAll } =
-    useContext(Web3Context);
+  const {
+    account,
+    createMarketItem,
+    setApprovalForAll,
+    isApprovedForAll,
+    createMarketAuction,
+  } = useContext(Web3Context);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isApproved, setIsApproved] = useState(false);
@@ -50,6 +55,7 @@ export const NFTCard = ({ nft }) => {
             createMarketItem={createMarketItem}
             tokenId={tokenId}
             contractAddress={contractAddress}
+            createMarketAuction={createMarketAuction}
           />
           <Button
             onClick={onOpen}

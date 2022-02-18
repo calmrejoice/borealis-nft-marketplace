@@ -195,7 +195,7 @@ contract NFTMarket is ReentrancyGuard {
     function createAuctionBid(uint256 itemId) external payable nonReentrant {
         MarketItem storage currentItem = idToMarketItem[itemId];
         AuctionInfo storage currentInfo = auctionData[itemId];
-        require(!currentItem.sold, "Item has already been sold");
+        // require(!currentItem.sold, "Item has already been sold");
         require(currentItem.isAuction, "Item is not for auction");
         require(
             currentInfo.timeEnding > block.timestamp,

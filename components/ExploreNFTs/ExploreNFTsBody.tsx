@@ -36,7 +36,9 @@ export const ExploreNFTsBody = () => {
         <Flex m='16'>
           <SimpleGrid columns={6} spacing={8}>
             {marketItems.map((nft) => {
-              return <ExploreNFTCard key={nft.tokenId} nft={nft} />;
+              return (
+                <ExploreNFTCard key={nft.item.tokenId.toString()} nft={nft} />
+              );
             })}
           </SimpleGrid>
         </Flex>
