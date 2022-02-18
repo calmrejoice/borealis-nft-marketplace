@@ -24,7 +24,7 @@ export const MotionChakraImage = ({ src, alt, ...props }) => {
         fallbackSrc={null}
         placeholder={null}
         objectPosition='center'
-        objectFit='cover'
+        objectFit='contain'
         onLoad={(e) => setImageIsLoaded(true)}
         {...props}
       />

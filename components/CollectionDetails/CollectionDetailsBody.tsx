@@ -16,13 +16,14 @@ import { MotionChakraImage } from '@components/Animated/MotionChakraImage';
 import { NFTCard } from './NFTCard';
 import { getJSONfromHash, imageSourceBaseURL } from '@config/axios';
 import Web3Context from '@context/Web3Context';
+import { EmptyContent } from '@components/EmptyContent';
 
 export const CollectionDetailsBody = () => {
   const router = useRouter();
   const { query } = router;
   const { collectionAddress, hash } = query;
 
-  const { account, balanceOf, tokenOfOwnerByIndex, tokenURI } =
+  const { account, balanceOf, tokenOfOwnerByIndex, tokenURI, withdraw } =
     useContext(Web3Context);
 
   const [metaData, setMetaData]: any = useState({});
@@ -91,16 +92,35 @@ export const CollectionDetailsBody = () => {
 
   const { name, symbol, title, category, description, image } = metaData;
 
+  const onWithdraw = async () => {
+    const result = await withdraw(collectionAddress);
+    console.log(result);
+  };
+
+  const renderNFTs = () => {
+    if (totalNFTs === 0) {
+      return <EmptyContent />;
+    } else {
+      return (
+        <SimpleGrid columns={6} spacing='8' mx='16'>
+          {NFTDetails.map((nft) => {
+            return <NFTCard key={nft.tokenURI} nft={nft} />;
+          })}
+        </SimpleGrid>
+      );
+    }
+  };
+
   return (
     <Flex flexDir='column' alignItems='center' mx='auto'>
       <Flex
         height='200px'
-        width='300px'
+        width='600px'
         overflow='hidden'
-        justifyContent='center'
         alignItems='center'
         shadow='dark-lg'
         borderRadius='lg'
+        objectFit='contain'
         mt='8'
       >
         <MotionChakraImage
@@ -127,18 +147,9 @@ export const CollectionDetailsBody = () => {
         >
           Create an NFT in this collection.
         </Button>
+        {/* <Button onClick={onWithdraw}>Withdraw all earnings</Button> */}
       </VStack>
-      <SimpleGrid columns={6} spacing='8' mx='16'>
-        {NFTDetails.map((nft) => {
-          return <NFTCard key={nft.tokenURI} nft={nft} />;
-        })}
-      </SimpleGrid>
+      {renderNFTs()}
     </Flex>
   );
 };
-
-// contractAddress: "0xE37B91b0303c758bF09968D5635266144378593F"
-// metaData: {name: 'bear', description: 'test', royalty: '12', file: {…}, image: 'QmQ2q5T3tgpneZiWdBwhAeEieFsTvkoa5eZS7Cni9ijmD3'}
-// ownerAddress: "0x33E499EDf28748744471C6507FcBA30584D5312f"
-// tokenId: 2
-// tokenURI: "QmSqgkX9N8hKbbAPuyDVvzN3TRa7k8YBge81a7AEyi3i1p"

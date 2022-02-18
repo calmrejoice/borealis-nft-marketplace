@@ -133,6 +133,8 @@ export const CreateCollectionBody = () => {
     }
   };
 
+  console.log(cost);
+
   return (
     <Flex justifyContent='center' width='100vw'>
       <VStack alignItems='flex-start' spacing='8' my='16'>

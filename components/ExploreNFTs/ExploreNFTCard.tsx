@@ -30,8 +30,10 @@ export const ExploreNFTCard = ({ nft }) => {
 
   const { name, description, royalty, image } = metaData;
 
-  const parsedPrice = price && utils.parseEther(price.toString());
-  console.log(parsedPrice);
+  const priceInEth = price && utils.formatEther(price);
+  const formatedTokenId = tokenId && tokenId.toString();
+  console.log(priceInEth);
+  console.log(formatedTokenId);
 
   return (
     <Flex
@@ -48,8 +50,8 @@ export const ExploreNFTCard = ({ nft }) => {
           query: {
             hash: hash,
             owner: seller,
-            tokenId: tokenId,
-            price: price,
+            tokenId: formatedTokenId,
+            price: priceInEth,
           },
         });
       }}

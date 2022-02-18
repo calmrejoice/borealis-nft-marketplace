@@ -13,12 +13,14 @@ import { useRouter } from 'next/router';
 import { MotionChakraImage } from '@components/Animated/MotionChakraImage';
 import { getJSONfromHash, imageSourceBaseURL } from '@config/axios';
 import Web3Context from '@context/Web3Context';
+import { utils } from 'ethers';
 
 export const NFTDetailsBody = () => {
   const router = useRouter();
   const { query } = router;
-  const { nftAddress, hash, owner, tokenId, price } = query;
+  const { nftAddress, hash, owner, tokenId, price }: any = query;
 
+  const [isLoading, setIsLoading] = useState(false);
   const [metaData, setMetaData]: any = useState({});
   const { account, buyNFT } = useContext(Web3Context);
 
@@ -36,7 +38,13 @@ export const NFTDetailsBody = () => {
 
   const { description, name, royalty, image } = metaData;
 
-  console.log(price);
+  const parsedPrice = price && utils.parseEther(price);
+
+  const onBuyNFT = async () => {
+    setIsLoading(true);
+    const result = await buyNFT(nftAddress, tokenId, parsedPrice);
+    setIsLoading(false);
+  };
 
   return (
     <Flex flex={1} m='8'>
@@ -77,7 +85,12 @@ export const NFTDetailsBody = () => {
         </Badge>
         <Spacer />
         <HStack flex={1} justifyContent='flex-end' mt='16'>
-          <Button flex={1} variant='solid'>
+          <Button
+            flex={1}
+            variant='solid'
+            onClick={onBuyNFT}
+            isLoading={isLoading}
+          >
             Buy for {price} ETH
           </Button>
           <Button flex={1} variant='solid'>

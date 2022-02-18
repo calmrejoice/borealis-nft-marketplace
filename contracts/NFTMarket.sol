@@ -263,11 +263,11 @@ contract NFTMarket is ReentrancyGuard {
     {
         MarketItem storage currentItem = idToMarketItem[itemId];
         require(!currentItem.isAuction, "This item is on auction");
-        require(
-            msg.value == currentItem.price,
-            "Please submit the asking price in order to complete the purchase"
-        );
-        require(!currentItem.sold, "Item already sold");
+        // require(
+        //     msg.value == currentItem.price,
+        //     "Please submit the asking price in order to complete the purchase"
+        // );
+        // require(!currentItem.sold, "Item already sold");
         if (currentItem.creator == currentItem.seller) {
             payable(currentItem.nftContract).transfer(msg.value);
         } else {

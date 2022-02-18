@@ -39,6 +39,10 @@ export const Web3Provider = (props) => {
     setApprovalForAll: (bool, contractAddress) => {},
     isApprovedForAll: (userAddress, contractAddress) => {},
     buyNFT: (NFTContractAddress, itemId, nftPrice) => {},
+    withdraw: (contractAddress) => {},
+    fetchItemsCreated: () => {},
+    fetchMyNFTs: () => {},
+    unlistItem: (itemId) => {},
   };
 
   const toast = useToast();
@@ -409,6 +413,53 @@ export const Web3Provider = (props) => {
         value: nftPrice,
       })
     );
+  };
+
+  /* Returns only items a user has created in the marketplace */
+  functionsToExport.fetchItemsCreated = async () => {
+    const signer = await checkSigner();
+
+    const marketPlaceContract = new Contract(
+      nftMarketAddress,
+      NFTMarket.abi,
+      signer
+    );
+    const result = await marketPlaceContract.fetchItemsCreated();
+    return result;
+  };
+
+  /* Returns only items that a user has purchased */
+  functionsToExport.fetchMyNFTs = async () => {
+    const signer = await checkSigner();
+    const marketPlaceContract = new Contract(
+      nftMarketAddress,
+      NFTMarket.abi,
+      signer
+    );
+    const result = await marketPlaceContract.fetchMyNFTs();
+    return result;
+  };
+
+  functionsToExport.unlistItem = async (itemId) => {
+    const signer = await checkSigner();
+    const marketPlaceContract = new Contract(
+      nftMarketAddress,
+      NFTMarket.abi,
+      signer
+    );
+    return await showTransactionProgress(
+      marketPlaceContract.unlistItem(itemId)
+    );
+  };
+
+  functionsToExport.withdraw = async (contractAddress) => {
+    const signer = await checkSigner();
+    const nftContract = new Contract(
+      contractAddress,
+      BorealisRoyalty.abi,
+      signer
+    );
+    return await showTransactionProgress(nftContract.withdraw());
   };
 
   return (
