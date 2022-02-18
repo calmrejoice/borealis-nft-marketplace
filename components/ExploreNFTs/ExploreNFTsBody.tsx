@@ -1,5 +1,5 @@
 import { useEffect, useContext, useState } from 'react';
-import { Flex, Heading } from '@chakra-ui/react';
+import { Flex, Heading, SimpleGrid } from '@chakra-ui/react';
 
 import Web3Context from '@context/Web3Context';
 import { ExploreNFTCard } from './ExploreNFTCard';
@@ -33,17 +33,19 @@ export const ExploreNFTsBody = () => {
       );
     } else {
       return (
-        <Flex>
-          {marketItems.map((nft) => {
-            return <ExploreNFTCard key={nft.tokenId} nft={nft} />;
-          })}
+        <Flex m='16'>
+          <SimpleGrid columns={6} spacing={8}>
+            {marketItems.map((nft) => {
+              return <ExploreNFTCard key={nft.tokenId} nft={nft} />;
+            })}
+          </SimpleGrid>
         </Flex>
       );
     }
   };
 
   return (
-    <Flex flexDir='column' mx='auto' my='8'>
+    <Flex flexDir='column' alignItems='center' my='8'>
       <Heading>Browse All NFTs</Heading>
       {renderMarketItems()}
     </Flex>

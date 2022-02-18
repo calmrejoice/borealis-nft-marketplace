@@ -41,7 +41,7 @@ export const ListingsNFTCard = ({ nft }) => {
       alignItems='center'
       className='animate-on-hover'
     >
-      <Flex overflow='hidden' boxSize='200px'>
+      <Flex overflow='hidden' height='200px' borderTopRadius='lg'>
         <MotionChakraImage src={imageSourceBaseURL + image} alt='nft' />
       </Flex>
       <VStack spacing='4' my='4'>

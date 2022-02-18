@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
-import { Flex, Text, HStack, Button } from '@chakra-ui/react';
+import { Flex, Text, VStack, Button } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { utils } from 'ethers';
 
@@ -40,7 +40,7 @@ export const ExploreNFTCard = ({ nft }) => {
       borderRadius='lg'
       flexDir='column'
       borderWidth='thin'
-      _hover={{ shadow: 'lg' }}
+      shadow='lg'
       alignItems='center'
       cursor='pointer'
       className='animate-on-hover'
@@ -56,19 +56,18 @@ export const ExploreNFTCard = ({ nft }) => {
         });
       }}
     >
-      <Flex overflow='hidden' boxSize='200px'>
+      <Flex overflow='hidden' height='200px' borderTopRadius='lg'>
         <MotionChakraImage
           src={image && imageSourceBaseURL + image}
           alt='nft'
         />
       </Flex>
-      <Text mb='4' fontWeight='bold'>
-        {name}
-      </Text>
-      <HStack my='8'>
-        <Button>💰 Buy</Button>
-        <Button>💹 Bid</Button>
-      </HStack>
+      <VStack spacing={4} my={4}>
+        <Text fontWeight='bold'>{name}</Text>
+        <Text fontWeight='thin' textAlign='center' noOfLines={2}>
+          {description}
+        </Text>
+      </VStack>
     </Flex>
   );
 };
