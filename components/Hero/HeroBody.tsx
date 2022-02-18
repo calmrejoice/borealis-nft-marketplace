@@ -23,6 +23,7 @@ export const HeroBody = () => {
             size='lg'
             shadow='lg'
             variant='solid'
+            colorScheme='messenger'
             onClick={() => {
               router.push('/explore-collections');
             }}

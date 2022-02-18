@@ -1,4 +1,4 @@
-import { Flex, Text, Spinner, Center } from '@chakra-ui/react';
+import { Flex, Text, Spinner, Center, SimpleGrid } from '@chakra-ui/react';
 
 import { CollectionCard } from '@components/ExploreCollections/CollectionCard';
 
@@ -12,15 +12,17 @@ export const CreatedCollectionsTab = ({ userCollections }) => {
   }
 
   return (
-    <Flex>
-      {userCollections.map((collection) => {
-        return (
-          <CollectionCard
-            key={collection.contractAddress}
-            collection={collection}
-          />
-        );
-      })}
+    <Flex m='16'>
+      <SimpleGrid columns={3} spacing='8'>
+        {userCollections.map((collection) => {
+          return (
+            <CollectionCard
+              key={collection.contractAddress}
+              collection={collection}
+            />
+          );
+        })}
+      </SimpleGrid>
     </Flex>
   );
 };

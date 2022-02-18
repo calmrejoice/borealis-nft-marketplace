@@ -3,6 +3,7 @@ import { Flex, Text, Center, Spinner } from '@chakra-ui/react';
 
 import Web3Context from '@context/Web3Context';
 import { CollectedNFTCard } from './CollectedNFTCard';
+import { EmptyContent } from '@components/EmptyContent';
 
 export const CollectedNFTsTab = () => {
   const { fetchMyNFTs } = useContext(Web3Context);
@@ -21,7 +22,8 @@ export const CollectedNFTsTab = () => {
   if (collectedNFTs.length === 0) {
     return (
       <Center h='100vh'>
-        <Spinner />
+        <EmptyContent />
+        {/* <Spinner /> */}
       </Center>
     );
   }

@@ -27,10 +27,8 @@ export const CollectionCard = ({ collection = {} }) => {
     <Flex
       borderRadius='lg'
       flexDir='column'
-      borderWidth='thin'
-      _hover={{ shadow: 'lg' }}
+      shadow='lg'
       alignItems='center'
-      height='400px'
       cursor='pointer'
       className='animate-on-hover'
       onClick={() => {
@@ -40,10 +38,11 @@ export const CollectionCard = ({ collection = {} }) => {
       }}
     >
       <Flex
-        maxH='200px'
+        height='100px'
         overflow='hidden'
         justifyContent='center'
         alignItems='center'
+        borderTopRadius='lg'
       >
         <MotionChakraImage
           src={image ? imageSourceBaseURL + image : '/placeholder.jpg'}
@@ -60,7 +59,7 @@ export const CollectionCard = ({ collection = {} }) => {
       <Badge colorScheme='green' mt='2'>
         {category}
       </Badge>
-      <Text m='4' textAlign='center' noOfLines={3} color='gray.500'>
+      <Text m='8' textAlign='center' noOfLines={3} color='gray.500'>
         {description}
       </Text>
     </Flex>

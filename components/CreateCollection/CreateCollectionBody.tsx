@@ -246,18 +246,19 @@ export const CreateCollectionBody = () => {
           size='lg'
           onClick={onCreate}
           isLoading={isLoading}
+          colorScheme='messenger'
         >
           Create
         </Button>
 
-        <Button
+        {/* <Button
           variant='solid'
           size='lg'
           onClick={onSetListingPrice}
           isLoading={isLoading}
         >
           Set Listing Price
-        </Button>
+        </Button> */}
       </VStack>
     </Flex>
   );

@@ -24,7 +24,15 @@ export const HeaderBody = () => {
       <Spacer />
       <Search />
 
-      <Menu>
+      <Button
+        onClick={() => {
+          router.push('/explore-nfts');
+        }}
+      >
+        Explore
+      </Button>
+
+      {/* <Menu>
         <MenuButton as={Button}>Explore</MenuButton>
         <MenuList>
           <MenuItem
@@ -42,7 +50,7 @@ export const HeaderBody = () => {
             Collections
           </MenuItem>
         </MenuList>
-      </Menu>
+      </Menu> */}
 
       <Button
         onClick={() => {

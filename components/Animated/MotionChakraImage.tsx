@@ -20,7 +20,6 @@ export const MotionChakraImage = ({ src, alt, ...props }) => {
       <Image
         src={src}
         alt={alt}
-        borderRadius='md'
         fallbackSrc={null}
         placeholder={null}
         objectPosition='center'

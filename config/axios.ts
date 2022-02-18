@@ -50,8 +50,8 @@ export const unPin = (hash) => {
 export const getJSONfromHash = (hash) => {
   const baseURL =
     process.env.NODE_ENV === 'development'
-      ? 'https://gateway.pinata.cloud/ipfs/'
-      : 'https://ipfs.infura.io/ipfs/';
+      ? 'https://ipfs.infura.io/ipfs/'
+      : 'https://gateway.pinata.cloud/ipfs/';
   return axios.get(baseURL + hash);
 };
 export const imageSourceBaseURL = 'https://gateway.pinata.cloud/ipfs/';

@@ -26,8 +26,8 @@ export const ListingsTab = () => {
   }
 
   return (
-    <Flex my='16'>
-      <SimpleGrid columns={6} spacing='8' mx='16'>
+    <Flex m='16'>
+      <SimpleGrid columns={6} spacing='8'>
         {itemsListed.map((nft) => {
           return <ListingsNFTCard key={nft.tokenId} nft={nft} />;
         })}
