@@ -79,7 +79,9 @@ export const NFTCard = ({ nft }) => {
         <Text fontWeight='bold' fontSize='lg'>
           {name}
         </Text>
-        <Text fontWeight='thin'>{description}</Text>
+        <Text fontWeight='thin' textAlign='center'>
+          {description}
+        </Text>
         {renderListForSale()}
       </VStack>
     </Flex>

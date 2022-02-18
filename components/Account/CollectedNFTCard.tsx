@@ -16,8 +16,8 @@ export const CollectedNFTCard = ({ nft }) => {
   } = useContext(Web3Context);
 
   const [metaData, setMetaData]: any = useState({});
-  const [isApproved, setIsApproved] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isApproved, setIsApproved] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { tokenId, nftContract } = nft;
@@ -97,7 +97,9 @@ export const CollectedNFTCard = ({ nft }) => {
         <Text fontWeight='bold' fontSize='lg'>
           {name}
         </Text>
-        <Text fontWeight='thin'>{description}</Text>
+        <Text fontWeight='thin' textAlign='center'>
+          {description}
+        </Text>
         {renderListForSale()}
       </VStack>
     </Flex>
