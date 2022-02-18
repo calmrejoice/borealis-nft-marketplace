@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Flex, Text } from '@chakra-ui/react';
 
-import { NFTBody } from '@components/NFT/NFTBody';
+import { NFTDetailsBody } from '@components/NFTDetails/NFTDetailsBody';
 import { WrongNetworkMessage } from '@components/WrongNetworkMessage';
 import Web3Context from '@context/Web3Context';
 
@@ -12,7 +12,7 @@ export default function NFTPage() {
 
   return (
     <Flex>
-      <NFTBody />
+      <NFTDetailsBody />
     </Flex>
   );
 }

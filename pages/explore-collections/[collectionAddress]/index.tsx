@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Flex, Text } from '@chakra-ui/react';
 
-import { CollectionBody } from '@components/Collection/CollectionBody';
+import { CollectionDetailsBody } from '@components/CollectionDetails/CollectionDetailsBody';
 import { WrongNetworkMessage } from '@components/WrongNetworkMessage';
 import Web3Context from '@context/Web3Context';
 
@@ -12,7 +12,7 @@ export default function CollectionPage() {
 
   return (
     <Flex>
-      <CollectionBody />
+      <CollectionDetailsBody />
     </Flex>
   );
 }

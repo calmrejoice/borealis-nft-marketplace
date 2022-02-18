@@ -1,19 +1,26 @@
 import { useEffect, useState, useContext } from 'react';
-import { Flex, HStack, Button, Text, Heading, Badge } from '@chakra-ui/react';
+import {
+  Flex,
+  HStack,
+  Button,
+  Text,
+  Heading,
+  Badge,
+  Spacer,
+} from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
 import { MotionChakraImage } from '@components/Animated/MotionChakraImage';
 import { getJSONfromHash, imageSourceBaseURL } from '@config/axios';
-import { ListNFTSection } from './ListNFTSection';
 import Web3Context from '@context/Web3Context';
 
-export const NFTBody = () => {
+export const NFTDetailsBody = () => {
   const router = useRouter();
   const { query } = router;
-  const { nftAddress, hash, owner, tokenId } = query;
+  const { nftAddress, hash, owner, tokenId, price } = query;
 
   const [metaData, setMetaData]: any = useState({});
-  const { account } = useContext(Web3Context);
+  const { account, buyNFT } = useContext(Web3Context);
 
   useEffect(() => {
     const fetchMetadata = async () => {
@@ -29,20 +36,7 @@ export const NFTBody = () => {
 
   const { description, name, royalty, image } = metaData;
 
-  const renderBuyOptions = () => {
-    if (owner !== account) {
-      return (
-        <HStack flex={1} justifyContent='flex-end' mt='16'>
-          <Button flex={1} variant='solid'>
-            Buy for 0.2 NEAR
-          </Button>
-          <Button flex={1} variant='solid'>
-            Bid
-          </Button>
-        </HStack>
-      );
-    }
-  };
+  console.log(price);
 
   return (
     <Flex flex={1} m='8'>
@@ -81,8 +75,15 @@ export const NFTBody = () => {
         <Badge alignSelf='flex-start' colorScheme='orange'>
           {royalty} %
         </Badge>
-        {renderBuyOptions()}
-        <ListNFTSection />
+        <Spacer />
+        <HStack flex={1} justifyContent='flex-end' mt='16'>
+          <Button flex={1} variant='solid'>
+            Buy for {price} ETH
+          </Button>
+          <Button flex={1} variant='solid'>
+            Bid
+          </Button>
+        </HStack>
       </Flex>
     </Flex>
   );

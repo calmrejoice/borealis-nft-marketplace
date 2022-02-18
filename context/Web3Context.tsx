@@ -38,6 +38,7 @@ export const Web3Provider = (props) => {
     fetchMarketItems: (ownerAddress, contractAddress, index) => {},
     setApprovalForAll: (bool, contractAddress) => {},
     isApprovedForAll: (userAddress, contractAddress) => {},
+    buyNFT: (NFTContractAddress, itemId, nftPrice) => {},
   };
 
   const toast = useToast();
@@ -107,7 +108,7 @@ export const Web3Provider = (props) => {
       completeResult = await Promise.resolve(result);
     } catch (e) {
       toast({
-        description: `Transaction Failed. ${e.toString()}`,
+        description: `Transaction Failed. Please try again.`,
         status: 'error',
       });
 
@@ -310,14 +311,19 @@ export const Web3Provider = (props) => {
     contractAddress
   ) => {
     const signer = await checkSigner();
-    const nftContract = new Contract(
-      contractAddress,
-      BorealisRoyalty.abi,
-      signer
-    );
-    const result = await nftContract.tokenOfOwnerByIndex(ownerAddress, index);
-    console.log(result);
-    return result;
+
+    try {
+      const nftContract = new Contract(
+        contractAddress,
+        BorealisRoyalty.abi,
+        signer
+      );
+      const result = await nftContract.tokenOfOwnerByIndex(ownerAddress, index);
+      console.log(result);
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   //Marketplace functions
@@ -326,21 +332,29 @@ export const Web3Provider = (props) => {
     tokenID,
     price
   ) => {
-    const signer = await checkSigner();
-    const etherPrice = utils.parseEther(price);
-    console.log(etherPrice);
-    const marketPlaceContract = new Contract(
-      nftMarketAddress,
-      NFTMarket.abi,
-      signer
-    );
-    return await showTransactionProgress(
-      marketPlaceContract.createMarketItem(
-        NFTContractAddress,
-        tokenID,
-        etherPrice
-      )
-    );
+    try {
+      const signer = await checkSigner();
+      const etherPrice = utils.parseEther(price);
+      console.log(etherPrice);
+      const marketPlaceContract = new Contract(
+        nftMarketAddress,
+        NFTMarket.abi,
+        signer
+      );
+      return await showTransactionProgress(
+        marketPlaceContract.createMarketItem(
+          NFTContractAddress,
+          tokenID,
+          etherPrice
+        )
+      );
+    } catch (error) {
+      console.log(error);
+      toast({
+        description: 'Please enter valid numbers.',
+        status: 'error',
+      });
+    }
   };
 
   // Returns all unsold items
@@ -381,6 +395,20 @@ export const Web3Provider = (props) => {
     );
     console.log(result);
     return result;
+  };
+
+  functionsToExport.buyNFT = async (NFTContractAddress, itemId, nftPrice) => {
+    const signer = await checkSigner();
+    const marketPlaceContract = new Contract(
+      nftMarketAddress,
+      NFTMarket.abi,
+      signer
+    );
+    return await showTransactionProgress(
+      marketPlaceContract.createMarketSale(NFTContractAddress, itemId, {
+        value: nftPrice,
+      })
+    );
   };
 
   return (

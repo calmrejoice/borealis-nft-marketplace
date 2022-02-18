@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Flex, Text, Image } from '@chakra-ui/react';
+import { Flex, Text, Image, Spinner } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 
 export const MotionChakraImage = ({ src, alt, ...props }) => {
@@ -20,8 +20,8 @@ export const MotionChakraImage = ({ src, alt, ...props }) => {
       <Image
         src={src}
         alt={alt}
-        borderTopRadius='md'
-        fallbackSrc={'/placeholder.jpg'}
+        borderRadius='md'
+        fallbackSrc={null}
         placeholder={null}
         objectPosition='center'
         objectFit='cover'
