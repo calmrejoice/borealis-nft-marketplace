@@ -24,17 +24,17 @@ Borealis is a NFT marketplace on Aurora chain. It facilitates the creating, buyi
 ## Screenshots
 
 - **Home Page**
-  ![Home Page](./Assets/homepage.png)
-- **Market Place**
-  ![Market Place](./Assets/homepage.png)
+  ![Home Page](./assets/homepage.png)
+- **NFT Market Place**
+  ![NFT Market Place](./assets/nftmarketplace.png)
 - **My Profile**
-  ![Profile](./Assets/homepage.png)
+  ![My Profile](./assets/myprofile.png)
 - **Create Collection**
-  ![Create Collection](./Assets/homepage.png)
+  ![Create Collection](./assets/createcollection.png)
 - **Collection Details**
-  ![Collection Details](./Assets/homepage.png)
+  ![Collection Details](./assets/collectiondetails.png)
 - **NFT Details**
-  ![NFT Details](./Assets/homepage.png)
+  ![NFT Details](./assets/nftdetails.png)
 
 ## What's Next For Borealis
 

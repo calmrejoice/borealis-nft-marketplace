@@ -81,7 +81,7 @@ export const NFTCard = ({ nft }) => {
       <Flex overflow='hidden' borderTopRadius='lg'>
         <MotionChakraImage src={imageSourceBaseURL + image} alt='nft' />
       </Flex>
-      <VStack spacing='4' my='4'>
+      <VStack spacing='4' m='4'>
         <Text fontWeight='bold' fontSize='lg'>
           {name}
         </Text>
