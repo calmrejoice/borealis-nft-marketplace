@@ -54,7 +54,7 @@ export const getJSONfromHash = (hash) => {
       : 'https://gateway.pinata.cloud/ipfs/';
   return axios.get(baseURL + hash);
 };
-export const imageSourceBaseURL = 'https://ipfs.infura.io/ipfs/';
+export const imageSourceBaseURL = 'https://gateway.pinata.cloud/ipfs/';
 
 // https://ipfs.io/ipfs/
 // https://ipfs.infura.io/ipfs/
