@@ -42,12 +42,18 @@ export const CreateCollectionBody = () => {
     file: '',
   });
 
-  useEffect(() => {
-    const getF = async () => {
-      setCost((await getCollectionCreationPrice()).toNumber());
-    };
-    getF();
-  }, []);
+  // useEffect(() => {
+  //   const getF = async () => {
+  //     const result = await getCollectionCreationPrice();
+  //     let creationPrice = utils.parseEther('0.025').toNumber();
+  //     if (result) {
+  //       creationPrice = result.toNumber();
+  //     }
+
+  //     setCost(creationPrice);
+  //   };
+  //   getF();
+  // }, []);
 
   const handleInputChange = (field, value) => {
     const newMetaData = { ...metaData };
@@ -89,7 +95,7 @@ export const CreateCollectionBody = () => {
         status: 'success',
       });
 
-      const transactionFee = cost.toString() || utils.parseEther('0.025');
+      const transactionFee = utils.parseEther('0.025') || cost.toString();
 
       // Complete collection creation on blockchain
       const txn = await createCollection(

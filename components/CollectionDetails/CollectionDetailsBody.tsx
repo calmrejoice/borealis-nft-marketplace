@@ -23,23 +23,14 @@ export const CollectionDetailsBody = () => {
   const { query } = router;
   const { collectionAddress, hash } = query;
 
+  console.log(collectionAddress, hash);
+
   const { account, balanceOf, tokenOfOwnerByIndex, tokenURI, withdraw } =
     useContext(Web3Context);
 
   const [metaData, setMetaData]: any = useState({});
   const [totalNFTs, setTotalNFTs] = useState(0);
   const [NFTDetails, setNFTDetails] = useState([]);
-
-  useEffect(() => {
-    const fetchMetaData = async () => {
-      const { data } = await getJSONfromHash(hash);
-      setMetaData(data);
-    };
-
-    if (hash) {
-      fetchMetaData();
-    }
-  }, [hash]);
 
   useEffect(() => {
     const fetchNFTs = async () => {
@@ -53,7 +44,18 @@ export const CollectionDetailsBody = () => {
     if (collectionAddress) {
       fetchNFTs();
     }
-  }, [collectionAddress, account]);
+  }, [collectionAddress, account, balanceOf]);
+
+  useEffect(() => {
+    const fetchMetaData = async () => {
+      const { data } = await getJSONfromHash(hash);
+      setMetaData(data);
+    };
+
+    if (hash) {
+      fetchMetaData();
+    }
+  }, [hash]);
 
   useEffect(() => {
     const fetchNFTData = async () => {
@@ -78,15 +80,18 @@ export const CollectionDetailsBody = () => {
           nftData.tokenId,
           collectionAddress
         );
-        nftData['metaData'] = (await getJSONfromHash(nftData.tokenURI)).data;
+        const { data } = await getJSONfromHash(nftData.tokenURI);
+        nftData['metaData'] = data;
         nfts.push(nftData);
       }
       setNFTDetails(nfts);
       console.log(nfts);
     };
 
-    fetchNFTData();
-  }, [totalNFTs]);
+    if (totalNFTs > 0) {
+      fetchNFTData();
+    }
+  }, [totalNFTs, collectionAddress, account, tokenOfOwnerByIndex, tokenURI]);
   console.log(totalNFTs);
   console.log(NFTDetails);
 
@@ -124,7 +129,7 @@ export const CollectionDetailsBody = () => {
         mt='8'
       >
         <MotionChakraImage
-          src={image ? imageSourceBaseURL + image : '/placeholder.jpg'}
+          src={image && imageSourceBaseURL + image}
           alt='Collection logo'
         />
       </Flex>

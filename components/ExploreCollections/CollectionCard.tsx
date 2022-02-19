@@ -19,7 +19,7 @@ export const CollectionCard = ({ collection = {} }) => {
     };
 
     fetchMetaData();
-  }, []);
+  }, [metaDataHash]);
 
   const { name, symbol, title, category, description, image } = metaData;
 

@@ -31,7 +31,7 @@ export const AccountBody = () => {
     };
 
     fetch();
-  }, []);
+  }, [account]);
 
   const renderTab = () => {
     if (!tab || tab === 'createdCollections') {

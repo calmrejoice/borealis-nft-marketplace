@@ -5,12 +5,14 @@
 Borealis is a NFT marketplace on Aurora chain. It facilitates the creating, buying and selling of NFTs in an automated environment.
 
 - [Demo Website](https://borealis-nft-marketplace.vercel.app/)
-- [Demo Video](https://www.youtube.com/watch?v=XmqtBVTvjIU)
+- [Demo Video](https://www.youtube.com/watch?v=_hDyWQ7tpT8)
 
 ## Contracts
 
-- CollectionFactory - 0x64964989E33617cBD2a2E9Db48fB5049b76820Af
-- NFT Market - 0x5f0480244EdfEf51A9c8aDb4da80bE9cBD960f7b
+- CollectionFactory - 0xb3507D0FeF19a317d5ab10550Df66BD307C1b3A8
+- NFT Market - 0x5f6b7109C6132023F05a8a60824b4541a532BDD1
+- CollectionFactory OLD - 0x64964989E33617cBD2a2E9Db48fB5049b76820Af
+- NFT Market OLD - 0x5f0480244EdfEf51A9c8aDb4da80bE9cBD960f7b
 
 ## Features
 

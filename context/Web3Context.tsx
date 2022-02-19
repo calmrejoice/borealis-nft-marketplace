@@ -373,15 +373,19 @@ export const Web3Provider = (props) => {
 
   // Returns all unsold items
   functionsToExport.fetchMarketItems = async () => {
-    const signer = await checkSigner();
-    const marketPlaceContract = new Contract(
-      nftMarketAddress,
-      NFTMarket.abi,
-      signer
-    );
-    const result = await marketPlaceContract.fetchMarketItems();
-    console.log(result);
-    return result;
+    try {
+      const signer = await checkSigner();
+      const marketPlaceContract = new Contract(
+        nftMarketAddress,
+        NFTMarket.abi,
+        signer
+      );
+      const result = await marketPlaceContract.fetchMarketItems();
+      console.log(result);
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   functionsToExport.setApprovalForAll = async (bool, contractAddress) => {
